@@ -1,6 +1,8 @@
 import ReactMarkdown, { ExtraProps } from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import atomDark from "react-syntax-highlighter/dist/esm/styles/prism/atom-dark";
+import js from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
+import css from "react-syntax-highlighter/dist/esm/languages/prism/css";
 import PostHeader from "./PostHeader";
 import { PostType } from "@/types/blog";
 import { ComponentProps, ElementType } from "react";
@@ -11,6 +13,9 @@ type Components = {
     ComponentProps<Key> & ExtraProps
   >;
 };
+
+SyntaxHighlighter.registerLanguage("javascript", js);
+SyntaxHighlighter.registerLanguage("css", css);
 
 const customRenders = (post: PostType): Components => {
   return {

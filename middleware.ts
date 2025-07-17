@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { auth0 } from "./lib/auth0";
 
-export async function middleware(request) {
+export async function middleware(request: NextRequest) {
     const authRes = await auth0.middleware(request);
 
     // authentication routes — let the middleware handle it
@@ -35,6 +35,6 @@ export const config = {
          * - api (API routes)
          * - posts (blog posts)
          */
-        "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api|posts).*)",
+        "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api|posts|jogos).*)",
     ],
 }
