@@ -1,0 +1,14 @@
+{
+  "name": "Petreca's Blog",
+  "short_name": "Petreca",
+  "icons": [
+    {
+      "src": "/favicons/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone"
+}
