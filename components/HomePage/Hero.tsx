@@ -15,9 +15,10 @@ export default function Hero() {
     >
       <Image
         src="/images/leandro.jpeg"
-        alt="An image showing Leandro"
+        alt="Imagem de Leandro Petreca"
         width={300}
         height={300}
+        loading="lazy"
         style={{
           borderRadius: "50%",
           marginBottom: "1rem",

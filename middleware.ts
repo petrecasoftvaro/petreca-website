@@ -4,6 +4,8 @@ import { auth0 } from "./lib/auth0";
 export async function middleware(request: NextRequest) {
     const authRes = await auth0.middleware(request);
 
+    console.log("Middleware triggered for request:", request.nextUrl.pathname);
+
     // authentication routes — let the middleware handle it
     if (request.nextUrl.pathname.startsWith("/auth")) {
         return authRes;
@@ -35,6 +37,6 @@ export const config = {
          * - api (API routes)
          * - posts (blog posts)
          */
-        "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api|posts|jogos).*)",
+        "/((?!_next/static|_next/image|images|favicon.ico|sitemap.xml|robots.txt|api|posts|jogos).*)",
     ],
 }

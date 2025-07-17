@@ -35,7 +35,7 @@ export default function PostItem(props: { post: PostType }) {
             overflow: "hidden",
           }}>
 
-        <Image src={image} alt={title} fill={true} />
+        <Image priority={false} src={image} alt={title} fill={true} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
           </Box>
         <Box sx={{ padding: 2 }}>
           <Typography gutterBottom variant="h2" component="div">
