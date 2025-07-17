@@ -1,3 +1,9 @@
+## Licença
+
+O conteúdo deste repositório está licenciado sob a [Creative Commons BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).  
+Sinta-se livre para consultar, se inspirar e reutilizar **trechos** de código, mas **não é permitido clonar, redistribuir ou usar comercialmente** este projeto sem autorização.
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
