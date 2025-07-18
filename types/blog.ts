@@ -6,6 +6,7 @@ export type PostType = {
   slug: string;
   content: string;
   isFeatured: boolean;
+  archived?: boolean;
   author?: {
     name: string;
     image: string;

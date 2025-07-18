@@ -3,6 +3,7 @@ import { getAllPosts, getPostDataBySlug } from "@/lib/postsUtils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Comment from "@/components/Comment/Comment";
+import { Box, Typography } from "@mui/material";
 
 type Params = {
   params: Promise<{
@@ -16,13 +17,14 @@ export default async function PostsDetails(props: Params) {
   const post = getPostDataBySlug(params.slug);
 
   if (!post) {
-    return <p>Post not found!</p>;
+    return null
   }
+
   return (
-    <div>
+    <>
       <PostContent post={post} />
       <Comment />
-    </div>
+    </>
   );
 }
 

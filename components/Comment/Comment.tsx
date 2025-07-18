@@ -3,11 +3,11 @@ import useSWR from "swr";
 import { useState } from "react";
 import CommentForm from "./Form";
 import CommentList from "./List";
-import type { Comment } from '@/types/blog'
+import type { Comment } from "@/types/blog";
+import { Box, Grid, Typography } from "@mui/material";
 
 export default function Comment() {
   const [text, setText] = useState("");
-
 
   const { data: comments, mutate } = useSWR<Comment[]>(
     "/api/comment",
@@ -56,10 +56,20 @@ export default function Comment() {
     }
   };
 
+  //'xs' | 'sm' | 'md' | 'lg' | 'xl'
   return (
-    <div className="mt-20">
-      <CommentForm onSubmit={onSubmit} text={text} setText={setText} />
-      <CommentList comments={comments} onDelete={onDelete} />
-    </div>
+    <Box sx={{ width: "100%", mx: "auto" }}>
+      <Typography variant="h4" marginBottom={2}>Comentários</Typography>
+
+      <Grid container spacing={4}>
+        <Grid size={{ lg: 4, md: 12 }}>
+          <CommentForm onSubmit={onSubmit} text={text} setText={setText} />
+        </Grid>
+        <Grid size={{ lg: 8, sm: 12 }}>
+          <CommentList comments={comments} onDelete={onDelete} />
+        </Grid>
+       
+      </Grid>
+    </Box>
   );
 }

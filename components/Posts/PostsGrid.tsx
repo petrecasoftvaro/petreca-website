@@ -4,7 +4,7 @@ import { Grid } from "@mui/material/";
 
 export default function PostsGrid({ posts }: { posts: PostType[] }) {
   if (!posts || posts.length === 0) {
-    return <p>No posts found!</p>;
+    return <p>Nenhum post foi encontrado 😬</p>;
   }
   return (
     <Grid container spacing={2} columns={12}>

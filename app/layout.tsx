@@ -68,8 +68,6 @@ export default function RootLayout({
                   width: "100%",
                 }}
               >
-                
-
                 {children}
               </Box>
             </Container>

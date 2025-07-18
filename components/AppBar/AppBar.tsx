@@ -17,6 +17,7 @@ import PetrecaIcon from "../../theme/PetrecaIcon";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import MenuItens from "./MenuItens";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -70,21 +71,7 @@ export default function AppAppBar() {
             </Link>
 
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <Button
-                variant="text"
-                color="info"
-                size="medium"
-                sx={{ minWidth: 0 }}
-                href="/posts"
-              >
-                Blog
-              </Button>
-              <Button href="/jogos" variant="text" color="info" size="medium">
-                Jogos
-              </Button>
-              <Button variant="text" color="info" size="medium">
-                Compra conciente
-              </Button>
+              <MenuItens />              
             </Box>
           </Box>
           <Box
@@ -142,10 +129,12 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
 
-                <MenuItem onClick={()=>redirect("/posts")}>Blog</MenuItem>
-                <MenuItem onClick={()=>redirect("/jogos")}>Jogos</MenuItem>
-                <MenuItem onClick={()=>redirect("/compra")}>Compra conciente</MenuItem>
-             
+                <MenuItem onClick={() => redirect("/posts")}>Blog</MenuItem>
+                <MenuItem onClick={() => redirect("/jogos")}>Jogos</MenuItem>
+                <MenuItem onClick={() => redirect("/compra")}>
+                  Compra conciente
+                </MenuItem>
+
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   {user ? (

@@ -50,12 +50,12 @@ export default async function deleteComments(req: NextRequest) {
         statusText: "Missing parameter.",
       });
     }
-    comment.user.email = email ? email : name;
+    comment.user.email = email || "";
 
-    const isAdmin = process.env.NEXT_PUBLIC_AUTH0_ADMIN_EMAIL === name;
+    const isAdmin = process.env.NEXT_PUBLIC_AUTH0_ADMIN_EMAIL === email;
     const isAuthor = sub === comment.user.sub;
 
-    if (!isAdmin && !isAuthor) {
+    if (!isAdmin || !isAuthor) {
       return new NextResponse("Error 6", {
         status: 400,
         statusText: "Need authorization.",

@@ -1,5 +1,6 @@
 import { createTheme, alpha, PaletteMode, Shadows } from "@mui/material/styles";
 import { ABeeZee, Roboto } from "next/font/google";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const aBeeZee = ABeeZee({
   subsets: ["latin"],
@@ -42,16 +43,16 @@ const defaultTheme = createTheme();
 const customShadows: Shadows = [...defaultTheme.shadows];
 
 export const brand = {
-  50: "hsl(210, 100%, 95%)",
-  100: "hsl(210, 100%, 92%)",
-  200: "hsl(210, 100%, 80%)",
-  300: "hsl(210, 100%, 65%)",
-  400: "hsl(210, 98%, 48%)",
-  500: "hsl(210, 98%, 42%)",
-  600: "hsl(210, 98%, 55%)",
-  700: "hsl(210, 100%, 35%)",
-  800: "hsl(210, 100%, 16%)",
-  900: "rgb(0, 54, 107)",
+  50: "hsl(204, 100%, 95%)",
+  100: "hsl(204, 100%, 92%)",
+  200: "hsl(204, 100%, 80%)",
+  300: "hsl(204, 100%, 65%)",
+  400: "hsl(204, 98%, 48%)",
+  500: "hsl(204, 98%, 42%)",
+  600: "hsl(204, 98%, 55%)",
+  700: "hsl(204, 100%, 35%)",
+  800: "hsl(204, 100%, 16%)",
+  900: "hsla(204, 100%, 10%, 1.00)",
 };
 
 export const gray = {
@@ -121,11 +122,15 @@ export const getDesignTokens = (mode: PaletteMode) => {
         dark: brand[700],
         contrastText: brand[50],
         ...(mode === "dark" && {
-          contrastText: brand[50],
+          contrastText: orange[50],
           light: brand[300],
           main: brand[400],
-          dark: brand[700],
+          dark: brand[100],
         }),
+      },
+      brand: {
+        dark: brand[700],
+        light: brand[200],
       },
       info: {
         light: brand[100],

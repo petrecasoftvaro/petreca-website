@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/avatar/**', // Matches any path under /images
       },
+      {
+        protocol: 'https',
+        hostname: '**.googleusercontent.com', // Matches any subdomain of petreca.dev
+        port: '',
+        pathname: '/**', // Matches any path under /images/posts
+      }
     ],
   },
 };

@@ -32,6 +32,7 @@ const getPostData = (fileName: string): PostType => {
     excerpt: data.excerpt,
     date: data.date,
     isFeatured: data.isFeatured || false,
+    archived: data.archived || false,
   };
 
   return postData;
@@ -54,7 +55,7 @@ export const getAllPosts = () => {
     return getPostData(fileName);
   });
 
-  return allPosts.sort((postA, postB) => {
+  return allPosts.filter((post) => !post.archived).sort((postA, postB) => {
     return new Date(postB.date).getTime() - new Date(postA.date).getTime();
   });
 };
