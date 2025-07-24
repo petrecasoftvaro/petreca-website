@@ -26,14 +26,14 @@ const MenuItens = () => {
           Jogos
         </Button>
       </Link>
-      <Link href="/compra-conciente" passHref>
+      <Link href="/compra-consciente" passHref>
         <Button
           variant="text"
           color="info"
           size="medium"
           sx={{ minWidth: 0 }}
         >
-          Compra Conciente
+          Compra Consciente
         </Button>
       </Link>
     </div>

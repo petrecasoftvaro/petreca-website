@@ -18,6 +18,20 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+};
+
+module.exports = {
+  modularizeImports: {
+    
+    '@react-hook-form': {
+      transform: '@react-hook-form/{{member}}',
+    },
+  },
 };
 
 export default nextConfig;

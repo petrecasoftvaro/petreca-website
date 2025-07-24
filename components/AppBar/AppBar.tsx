@@ -131,8 +131,8 @@ export default function AppAppBar() {
 
                 <MenuItem onClick={() => redirect("/posts")}>Blog</MenuItem>
                 <MenuItem onClick={() => redirect("/jogos")}>Jogos</MenuItem>
-                <MenuItem onClick={() => redirect("/compra")}>
-                  Compra conciente
+                <MenuItem onClick={() => redirect("/compra-consciente")}>
+                  Compra consciente
                 </MenuItem>
 
                 <Divider sx={{ my: 3 }} />

@@ -1,6 +1,7 @@
 'use client';
 import Questions from '@/components/CompraConsiente/Questions';
 import QuestionsForm from '@/components/CompraConsiente/QuestionsForm'
+import QuestionsFormV2 from '@/components/CompraConsiente/QuestionsFormV2';
 import { calculatePoints } from '@/lib/Utils/wiselyBuy';
 import { Inputs } from '@/types/wiselyBuy';
 import { Container, Typography } from '@mui/material'
@@ -79,7 +80,7 @@ const Page = () => {
         Responda as perguntas e clique em "Analisar Compra" para ver o resultado.
       </Typography>
 
-    <QuestionsForm onSubmit={handleSubmit} resetForm={resetForm}  range={range} perUseCost={perUseCost} percentage={percentage} />
+    <QuestionsFormV2 onSubmit={handleSubmit} resetForm={resetForm}  range={range} perUseCost={perUseCost} percentage={percentage} />
 
     </Container>
   )
