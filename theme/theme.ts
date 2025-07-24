@@ -9,7 +9,7 @@ const theme = createTheme({
     cssVarPrefix: "template",
   },
   components: {
-    ...inputsCustomizations,
+    // ...inputsCustomizations,
   },
   colorSchemes,
   typography,

@@ -1,5 +1,5 @@
 import AllPosts from "@/components/Posts/AllPosts";
-import { getAllPosts } from "@/lib/postsUtils";
+import { getAllPosts } from "@/lib/Utils/postsUtils";
 import { Box, Typography } from "@mui/material";
 
 export default async function AllPostsPage() {

@@ -22,7 +22,7 @@ export const inputsCustomizations: Components<Theme> = {
         transition: 'all 100ms ease-in',
         '&:focus-visible': {
           outline: `3px solid ${alpha(theme.palette.primary.main, 0.5)}`,
-          outlineOffset: '2px',
+          outlineOffset: '1px',
         },
       }),
     },

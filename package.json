@@ -22,7 +22,9 @@
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.60.0",
     "react-markdown": "^10.1.0",
+    "react-number-format": "^5.4.4",
     "react-syntax-highlighter": "^15.6.1",
     "redis": "^5.5.6"
   },

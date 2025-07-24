@@ -1,5 +1,5 @@
 import PostContent from "@/components/Posts/PostDetail/PostContent";
-import { getAllPosts, getPostDataBySlug } from "@/lib/postsUtils";
+import { getAllPosts, getPostDataBySlug } from "@/lib/Utils/postsUtils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Comment from "@/components/Comment/Comment";

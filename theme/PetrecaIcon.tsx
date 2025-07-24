@@ -19,8 +19,7 @@ export default function PetrecaIcon() {
   const lightFillColor = theme.palette.text.secondary;
 
   React.useEffect(() => {
-    console.log("$$$ systemMode", systemMode);
-    console.log("$$$ mode", mode);
+
     if (!mode || mode === "system") {
       setFillColor(systemMode === 'dark' ? darkFillColor : lightFillColor);
     } else if (mode === 'dark') {
@@ -28,7 +27,7 @@ export default function PetrecaIcon() {
     } else {
       setFillColor(lightFillColor);
     }
-    console.log("$$$ fillColor", fillColor);
+    
   }, [systemMode, mode]);
 
   return (

@@ -1,6 +1,6 @@
 import StyledNextLink from "@/components/Layout/NextLink";
 import PostsGrid from "@/components/Posts/PostsGrid";
-import { getFeaturedPosts } from "@/lib/postsUtils";
+import { getFeaturedPosts } from "@/lib/Utils/postsUtils";
 import { Box, Container, Typography } from "@mui/material";
 import { get } from "http";
 import React from "react";
