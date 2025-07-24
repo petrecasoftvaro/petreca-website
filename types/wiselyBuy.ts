@@ -1,3 +1,5 @@
+import Questions from "@/components/CompraConsiente/Questions";
+
 export type FeelingType = 'good' | 'bad' | 'neutral';
 
 export type QuestionFieldType = 
@@ -12,11 +14,13 @@ export type QuestionField = {
   title: string;
   points: number;
   defaultValue: string | number | boolean | FeelingType;
+  suffix?: string;
 };
 
 export type QuestionsType = {
   name: QuestionField;
   price: QuestionField;
+  durability: QuestionField;
   timesUsing: QuestionField;
   isImpulse: QuestionField;
   isNeeded: QuestionField;
@@ -34,3 +38,15 @@ export type QuestionsType = {
   hasCheaperOptions: QuestionField;
   betterSolution: QuestionField;
 } 
+
+type MapSchemaTypes = {
+  string: string;
+  number: number;
+  boolean: boolean;
+  feelingType: FeelingType;
+};
+type MapSchema<T extends Record<string, { type: keyof MapSchemaTypes }>> = {
+  [K in keyof T]: MapSchemaTypes[T[K]["type"]];
+};
+
+export type Inputs = MapSchema<typeof Questions>;

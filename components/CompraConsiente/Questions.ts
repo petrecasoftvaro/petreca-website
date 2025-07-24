@@ -3,7 +3,8 @@ import { FeelingType, QuestionsType } from '@/types/wiselyBuy';
 const Questions: QuestionsType = {
   name: {type: 'string' as const, required: true, title: 'O que é?', points: 0, defaultValue: ''},
   price: {type: 'number' as const, required: true, title: 'Quanto custa?', points: 0, defaultValue: '' },
-  timesUsing: {type: 'number' as const, required: false, title: 'Quantas vezes vai usar no mês?', points: 0, defaultValue: '' },
+  timesUsing: {type: 'number' as const, required: false, title: 'Quantas vezes vai usar no mês?', points: 0, defaultValue: '', suffix: ' x'},
+  durability: {type: 'number' as const, required: false, title: 'Quantos anos vai durar?', points: 0, defaultValue: '', suffix: ' anos'},
   isImpulse: {type: 'boolean' as const, required: false, title: ' É uma compra planejada?', points: 1, defaultValue: false },
   isNeeded: {type: 'boolean' as const, required: false, title: 'Consigo viver sem isso?', points: -1, defaultValue: false },
   isOftenNeeded: {type: 'boolean' as const, required: false, title: 'Vai ser útil com frequência ?', points: 3, defaultValue: false },

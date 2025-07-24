@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Questions from "./Questions";
 import {
@@ -11,9 +11,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
-  SelectChangeEvent,
   Stack,
   Switch,
   TextField,
@@ -22,25 +20,20 @@ import {
 } from "@mui/material";
 import { NumericFormat } from "react-number-format";
 import {
-  FeelingType,
+  Inputs,
 } from "@/types/wiselyBuy";
 import { titleCase } from "@/lib/Utils/commun";
-import { set } from "date-fns";
-import { calculatePoints } from "@/lib/Utils/wiselyBuy";
 
-type MapSchemaTypes = {
-  string: string;
-  number: number;
-  boolean: boolean;
-  feelingType: FeelingType;
-};
-type MapSchema<T extends Record<string, { type: keyof MapSchemaTypes }>> = {
-  [K in keyof T]: MapSchemaTypes[T[K]["type"]];
+type QuestionsFormProps = {
+  onSubmit: SubmitHandler<Inputs>;
+  resetForm: () => void;
+  range: number;
+  perUseCost: number;
+  percentage: number;
 };
 
-type Inputs = MapSchema<typeof Questions>;
-
-const QuestionsForm = () => {
+const QuestionsForm: React.FC<QuestionsFormProps> = ({ onSubmit, resetForm, range, perUseCost, percentage }) => {
+  
   const {
     register,
     handleSubmit,
@@ -50,25 +43,12 @@ const QuestionsForm = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const theme = useTheme();
-  const [perUseCost, setPerUseCost] = React.useState<number>(0);
-  const [pointsSum, setPointsSum] = React.useState<number>(0);
-  const [totalAvailablePoints, setTotalAvailablePoints] =
-    React.useState<number>(0);
-  const [percentage, setPercentage] = React.useState<number>(0);
-  const [range, setRange] = React.useState<number>(0);
+  
 
   const defaultValues = Object.keys(Questions).reduce((acc, key) => {
     acc[key as keyof typeof Questions] = Questions[key as keyof typeof Questions].defaultValue;
     return acc;
   }, {} as Inputs);
-
-  useEffect(() => {
-    const perc =
-      totalAvailablePoints > 0 ? (100 / totalAvailablePoints) * pointsSum : 0;
-    setPercentage(Math.round(perc));
-    console.log(perc)
-    setRange(perc > 75 ? 3 : perc > 50 ? 2 : perc > 0 && perc <= 50 ? 1 : 0);
-  }, [pointsSum, totalAvailablePoints]);
 
   const feedBack = React.useMemo(() => {
     console.log("range", range);
@@ -121,35 +101,6 @@ const QuestionsForm = () => {
     }
   }, [range]);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("data", data);
-    setPointsSum(0);
-    setTotalAvailablePoints(0);
-    Object.entries(data).forEach(([key, value]) => {
-      const typeOfQuestion = Questions[key as keyof typeof Questions];
-      if (typeOfQuestion.points > 0) {
-        setTotalAvailablePoints((prev) => prev + typeOfQuestion.points);
-      }
-      if (key === "price") {
-        const perUseCostValue = data.timesUsing
-          ? Number((value as string).replace(/\D/g, "")) /
-            Number((data.timesUsing as string).replace(/\D/g, ""))
-          : Number(value);
-        setPerUseCost(perUseCostValue);
-        return;
-      } else if (key === "timesUsing") {
-        return;
-      } else if (
-        typeOfQuestion.type === "boolean" ||
-        typeOfQuestion.type === "feelingType"
-      ) {
-        const poit =
-        calculatePoints(typeOfQuestion, value) || 0;
-        console.log(`poit ${key}: ${poit} - value: ${value}`);
-        setPointsSum((prev) => prev + poit);
-      }
-    });
-  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -189,7 +140,7 @@ const QuestionsForm = () => {
                           {...register(key, { required: question.required })}
                           customInput={TextField}
                           fixedDecimalScale
-                          suffix=" x"
+                          suffix={ question.suffix || ""}
                           getInputRef={register(key).ref}
                           variant="outlined"
                           label={question.title}
@@ -229,6 +180,13 @@ const QuestionsForm = () => {
                   }
                 }
               )}
+              <Button
+              sx={{ marginTop: 10,  }}
+              type="submit"
+              variant="contained"
+            >
+              Analisar Compra
+            </Button>
             </Stack>
           </FormGroup>
         </Grid>
@@ -291,6 +249,7 @@ const QuestionsForm = () => {
                 console.log(defaultValues)
                 setValue("price", defaultValues.price);
                 reset(defaultValues);
+                resetForm();
               }}
             >
               Reset
@@ -304,7 +263,7 @@ const QuestionsForm = () => {
               é que os usuários possam registrar seus desejos de compra e, após
               responder um questionario, dar maior visibilidade dos prós e
               contras. Assim, é possível refletir melhor se a compra é realmente
-              conciente ou somente um impulso consumista.1
+              conciente ou somente um impulso consumista.
               
             </Typography>
           </Stack>
