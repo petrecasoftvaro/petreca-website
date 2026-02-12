@@ -14,15 +14,27 @@ import {
 } from "@/components/ui/popover"
 import { useEffect, useState } from "react"
 
+const formatTimeForInput = (d: Date) =>
+  d.toLocaleTimeString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  })
+
 export function Calendar24({ onChange, value }: { onChange: (date: Date) => void, value: Date }) {
 
   const [open, setOpen] = useState(false)
   const [date, setDate] = useState<Date | undefined>(value)
-  const [time, setTime] = useState<string | undefined>("06:00:00")
+  const [time, setTime] = useState<string>(() => formatTimeForInput(value))
 
   useEffect(() => {
     if (date) {
-      onChange(new Date(`${date.toLocaleDateString()} ${time}`))
+      const [hours, minutes, seconds] = time.split(":").map(Number)
+      const newDate = new Date(date)
+      newDate.setHours(hours, minutes, seconds || 0)
+      onChange(newDate)
     }
   }, [date, time, onChange])
 
@@ -39,11 +51,11 @@ export function Calendar24({ onChange, value }: { onChange: (date: Date) => void
               id="date-picker"
               className="w-32 justify-between font-normal"
             >
-              {date ? date.toLocaleDateString() : "Select date"}
+              {date ? date.toLocaleDateString("pt-BR") : "Selecione a data"}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <PopoverContent className="w-auto min-w-[320px] overflow-hidden p-0" align="start">
             <Calendar
               mode="single"
               selected={date}
@@ -66,6 +78,7 @@ export function Calendar24({ onChange, value }: { onChange: (date: Date) => void
           step="1"
           value={time}
           onChange={(e) => setTime(e.target.value)}
+          suppressHydrationWarning
           className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
         />
       </div>
