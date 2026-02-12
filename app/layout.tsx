@@ -1,6 +1,7 @@
 import "./global.css";
 import type { Metadata } from "next";
 import MainNavigation from "@/components/Layout/MainNavigation";
+import { Auth0SWRConfig } from "@/components/providers/Auth0SWRConfig";
 
 export const metadata: Metadata = {
   title: "Petreca's Blog",
@@ -48,12 +49,14 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body>
-        <div className="container mx-auto max-w-6xl px-4">
-          <MainNavigation />
-          <main className="mb-8 flex flex-col justify-center items-center w-full">
-            {children}
-          </main>
-        </div>
+        <Auth0SWRConfig>
+          <div className="container mx-auto max-w-6xl px-4">
+            <MainNavigation />
+            <main className="mb-8 flex flex-col justify-center items-center w-full">
+              {children}
+            </main>
+          </div>
+        </Auth0SWRConfig>
       </body>
     </html>
   );
