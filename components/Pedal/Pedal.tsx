@@ -87,13 +87,23 @@ export default function Pedal() {
         setNewStartPoint("")
     }
 
+    const formatDateTime = (date: Date | undefined) =>
+        date?.toLocaleString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: "America/Sao_Paulo",
+        })
+
     const composedMessage = useMemo(() => (
         <div className="space-y-2">
             <p className="font-semibold">PEDAL LONGÃO DE SÁBADO 🚴‍♂</p>
             <div className="space-y-1">
-                <p>📅 *Data:* {dateTime?.toLocaleString()}</p>
+                <p>📅 *Data:* {formatDateTime(dateTime)}</p>
                 <p>📍 *Local Partida:* {startPoint}</p>
-                <p>⏰ *Horário:* {dateTime?.toLocaleString()}</p>
+                <p>⏰ *Horário:* {formatDateTime(dateTime)}</p>
                 <p>📏 *Distância:* {distance} Km</p>
                 <p>⛰ *Altimetria:* {elevation} m</p>
                 <p>🏁 *Destino:* {destiny}</p>
@@ -224,7 +234,7 @@ export default function Pedal() {
             </Field>
 
             <Field className="my-10">
-                <FieldLabel htmlFor="bicyclists">Participantes</FieldLabel>
+                <FieldLabel htmlFor="bicyclists">Participantes <i>(em ordem alfabética)</i></FieldLabel>
                 <div className="grid grid-cols-3 md:grid-cols-8 gap-4 pt-2">
                     {DEFAULT_BICYCLISTS.map((name) => (
                         <label
@@ -249,27 +259,3 @@ export default function Pedal() {
         </div>
     )
 }
-
-
-// *PEDAL LONGÃO DE SÁBADO* 🚴‍♂️
-
-// 📅 *Data:* 07/02/2026
-// 📍 *Local de Partida:* Posto Santa Marta
-// ⏰ *Horário:* 6:00
-// 📏 *Distância:* 80 km 
-// ⛰ *Altimetria:* 1400
-// 🏁 *Destino:* Pinhal
-// 🛤 *Trajeto:*  Zé Branco / Coelho / Veridiana / Pinhal / Desastre / Mota Paes
-
-// *Todos estão convidados*
-
-// ✅ Participantes Confirmados:
-
-
-// 1 - J. Martins
-// 2 - Leandro
-// 3 - Guina
-// 4 - Valdir
-// 13- VK
-// 14 Beça
-// 15 - Henrique
