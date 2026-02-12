@@ -12,7 +12,7 @@ export default function ColorModeIconDropdown({
   size = "medium",
 }: ColorModeIconDropdownProps) {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
     setMounted(true);
