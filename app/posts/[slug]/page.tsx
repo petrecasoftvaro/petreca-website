@@ -3,7 +3,6 @@ import { getAllPosts, getPostDataBySlug } from "@/lib/Utils/postsUtils";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Comment from "@/components/Comment/Comment";
-import { Box, Typography } from "@mui/material";
 
 type Params = {
   params: Promise<{

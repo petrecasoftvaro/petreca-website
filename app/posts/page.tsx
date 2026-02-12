@@ -1,18 +1,17 @@
 import AllPosts from "@/components/Posts/AllPosts";
 import { getAllPosts } from "@/lib/Utils/postsUtils";
-import { Box, Typography } from "@mui/material";
 
 export default async function AllPostsPage() {
   const posts = getAllPosts();
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography gutterBottom variant="h2" component="div">
+    <div className="p-4">
+      <h2 className="text-3xl font-bold mb-4 text-foreground">
         Aqui estão todos os posts!
-      </Typography>
-      <Box sx={{ marginTop: 8 }}>
+      </h2>
+      <div className="mt-8">
         <AllPosts posts={posts} />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

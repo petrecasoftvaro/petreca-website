@@ -7,8 +7,6 @@ import PostHeader from "./PostHeader";
 import { PostType } from "@/types/blog";
 import { ComponentProps, ElementType } from "react";
 import Image from "next/image";
-import Box from "@mui/material/Box";
-import { Container } from "@mui/material";
 
 type Components = {
   [Key in Extract<ElementType, string>]?: ElementType<
@@ -62,13 +60,13 @@ const customRenders = (post: PostType): Components => {
 
 export default function PostContent({ post }: { post: PostType }) {
   return (
-    <Container sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 2 , width: "100%"}}>
+    <div className="container mx-auto max-w-6xl px-4 py-4 flex flex-col items-center w-full">
       <PostHeader {...post} />
-      <Box sx={{ maxWidth: 680 }}>
+      <div className="max-w-[680px]">
         <ReactMarkdown components={customRenders(post)}>
           {post.content}
         </ReactMarkdown>
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 }

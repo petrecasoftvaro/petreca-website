@@ -1,16 +1,15 @@
-import { Box, Typography } from "@mui/material";
 import PostsGrid from "../Posts/PostsGrid";
 import { PostType } from "@/types/blog";
 
 export default function FeaturedPosts({ posts }: { posts: PostType[] }) {
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography gutterBottom variant="h2" component="div">
+    <div className="p-4 md:p-8">
+      <h2 className="text-3xl md:text-4xl font-semibold mb-4 md:mb-6">
         Posts em destaque!
-      </Typography>
-      <Box sx={{ marginTop: 2 }}>
+      </h2>
+      <div className="mt-4 md:mt-8">
         <PostsGrid posts={posts} />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

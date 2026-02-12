@@ -1,65 +1,78 @@
-import { Box, Container, IconButton, Typography } from "@mui/material";
-import { GitHub, LinkedIn, Instagram } from "@mui/icons-material";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { GithubIcon, LinkedinIcon, InstagramIcon } from "@/components/ui/social-icons";
 
 export default function Hero() {
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        pt: { xs: 8, sm: 10 },
-        pb: { xs: 8, sm: 12 },
-      }}
-    >
+    <div className="container mx-auto max-w-6xl px-4 flex flex-col items-center pt-8 sm:pt-10 pb-8 sm:pb-12">
       <Image
         src="/images/leandro.jpeg"
         alt="Imagem de Leandro Petreca"
         width={300}
         height={300}
         loading="lazy"
-        style={{
-          borderRadius: "50%",
-          marginBottom: "1rem",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      ></Image>
+        className="rounded-full mb-4 shadow-md"
+      />
 
-      <Typography gutterBottom variant="h1" component="div">
+      <h1 className="text-4xl font-bold mb-4 text-foreground">
         Seja bem vindo
-      </Typography>
+      </h1>
 
-      <Typography variant="body1" component="div" sx={{ textAlign: "center" }}>
+      <p className="text-base text-center text-foreground mb-4">
         Olá, eu sou Leandro Petreca, um desenvolvedor apaixonado por criar
         experiências digitais incríveis. Neste blog, compartilho minhas
         descobertas, aprendizados e insights sobre desenvolvimento web,
         tecnologia e muito mais.
-      </Typography>
-      <Box sx={{ mt: 2, display: "flex", gap: 2 }}>
-        <IconButton
-          target="blank"
+      </p>
+      
+      <div className="mt-2 flex gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-10 w-10"
           aria-label="GitHub"
-          href="https://github.com/petrecasoftvaro"
+          asChild
         >
-          <GitHub />
-        </IconButton>
-        <IconButton
-          target="blank"
+          <Link
+            href="https://github.com/petrecasoftvaro"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GithubIcon />
+          </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-10 w-10"
           aria-label="Instagram"
-          href="https://www.instagram.com/kurt_jonnes"
+          asChild
         >
-          <Instagram />
-        </IconButton>
-
-        <IconButton
-          target="blank"
+          <Link
+            href="https://www.instagram.com/kurt_jonnes"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <InstagramIcon />
+          </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-10 w-10"
           aria-label="LinkedIn"
-          href="https://www.linkedin.com/in/leandropetreca"
+          asChild
         >
-          <LinkedIn />
-        </IconButton>
-      </Box>
-    </Container>
+          <Link
+            href="https://www.linkedin.com/in/leandropetreca"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LinkedinIcon />
+          </Link>
+        </Button>
+      </div>
+    </div>
   );
 }

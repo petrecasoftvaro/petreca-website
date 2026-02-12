@@ -1,167 +1,152 @@
 "use client";
 import { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
-import MenuItem from "@mui/material/MenuItem";
-import Drawer from "@mui/material/Drawer";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import ColorModeIconDropdown from "../../theme/ColorModeIconDropdown";
-import PetrecaIcon from "../../theme/PetrecaIcon";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Menu, X } from "lucide-react";
+import ColorModeIconDropdown from "./ColorModeIconDropdown";
+import PetrecaIcon from "./PetrecaIcon";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import MenuItens from "./MenuItens";
-
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  flexShrink: 0,
-  borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
-  backdropFilter: "blur(24px)",
-  border: "1px solid",
-  borderColor: (theme.vars || theme).palette.divider,
-  backgroundColor: theme.vars
-    ? `rgba(${theme.vars.palette.background.defaultChannel} / 0.4)`
-    : alpha(theme.palette.background.default, 0.4),
-  // boxShadow: (theme.vars || theme).shadows[1],
-  padding: "8px 12px",
-}));
+import { cn } from "@/lib/utils";
 
 export default function AppAppBar() {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
+  const handleNavigation = (path: string) => {
+    router.push(path);
+    setOpen(false);
   };
 
   return (
-    <AppBar
-      position="fixed"
-      enableColorOnDark
-      sx={{
-        boxShadow: 0,
-        bgcolor: "transparent",
+    <header
+      className="fixed top-[calc(var(--template-frame-height,0px)+28px)] left-0 right-0 z-50"
+      style={{
+        boxShadow: "none",
+        backgroundColor: "transparent",
         backgroundImage: "none",
-        mt: "calc(var(--template-frame-height, 0px) + 28px)",
       }}
     >
-      <Container maxWidth="lg">
-        <StyledToolbar variant="regular" disableGutters>
-          <Box
-            sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
-          >
+      <div className="container mx-auto max-w-6xl px-4">
+        <div
+          className={cn(
+            "flex items-center justify-between flex-shrink-0 rounded-lg",
+            "backdrop-blur-[24px] border border-border",
+            "bg-background/40 p-2"
+          )}
+        >
+          <div className="flex flex-grow items-center px-0">
             <Link
               href="/"
-              style={{
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-              }}
+              className="text-decoration-none flex items-center"
             >
               <PetrecaIcon />
             </Link>
 
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <MenuItens />              
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
+            <div className="hidden md:flex">
+              <MenuItens />
+            </div>
+          </div>
+
+          <div className="hidden md:flex gap-2 items-center">
             {user ? (
-              <Button
-                href="/auth/logout"
-                color="primary"
-                variant="outlined"
-                fullWidth
-              >
-                Logout
+              <Button variant="outline" asChild>
+                <Link href="/auth/logout">Logout</Link>
               </Button>
             ) : (
-              <Button
-                href="/auth/login"
-                color="primary"
-                variant="outlined"
-                fullWidth
-              >
-                Login
+              <Button variant="outline" asChild>
+                <Link href="/auth/login">Login</Link>
               </Button>
             )}
             <ColorModeIconDropdown />
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" }, gap: 1 }}>
+          </div>
+
+          <div className="flex md:hidden gap-2 items-center">
             <ColorModeIconDropdown size="medium" />
-            <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-            <Drawer
-              anchor="top"
-              open={open}
-              onClose={toggleDrawer(false)}
-              PaperProps={{
-                sx: {
-                  top: "var(--template-frame-height, 0px)",
-                },
-              }}
-            >
-              <Box sx={{ p: 2, backgroundColor: "background.default" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9"
+                  aria-label="Menu button"
                 >
-                  <IconButton onClick={toggleDrawer(false)}>
-                    <CloseRoundedIcon />
-                  </IconButton>
-                </Box>
-
-                <MenuItem onClick={() => redirect("/posts")}>Blog</MenuItem>
-                <MenuItem onClick={() => redirect("/jogos")}>Jogos</MenuItem>
-                <MenuItem onClick={() => redirect("/compra-consciente")}>
-                  Compra consciente
-                </MenuItem>
-
-                <Divider sx={{ my: 3 }} />
-                <MenuItem>
-                  {user ? (
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="top"
+                className="top-[var(--template-frame-height,0px)] [&>button]:hidden"
+              >
+                <SheetHeader>
+                  <div className="flex justify-end mb-4">
                     <Button
-                      href="/auth/logout"
-                      color="primary"
-                      variant="outlined"
-                      fullWidth
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setOpen(false)}
+                      className="h-9 w-9"
                     >
-                      Logout
+                      <X className="h-5 w-5" />
                     </Button>
-                  ) : (
-                    <Button
-                      href="/auth/login"
-                      color="primary"
-                      variant="outlined"
-                      fullWidth
-                    >
-                      Login
-                    </Button>
-                  )}
-                </MenuItem>
-              </Box>
-            </Drawer>
-          </Box>
-        </StyledToolbar>
-      </Container>
-    </AppBar>
+                  </div>
+                </SheetHeader>
+                <div className="flex flex-col gap-2 py-4">
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => handleNavigation("/posts")}
+                  >
+                    Blog
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => handleNavigation("/jogos")}
+                  >
+                    Jogos
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => handleNavigation("/compra-consciente")}
+                  >
+                    Compra consciente
+                  </Button>
+
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={() => handleNavigation("/pedal")}
+                  >
+                    Gerador Pedal
+                  </Button>
+                  <div className="border-t border-border my-3" />
+
+                  <div className="w-full">
+                    {user ? (
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link href="/auth/logout">Logout</Link>
+                      </Button>
+                    ) : (
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link href="/auth/login">Login</Link>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }

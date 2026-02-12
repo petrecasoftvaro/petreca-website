@@ -1,18 +1,15 @@
 "use client";
 import { shuffle } from "@/lib/Utils/game";
 import {
-  Box,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
   Select,
-  Stack,
-  SelectChangeEvent,
-  Button,
-  Typography,
-} from "@mui/material";
-import React, { use, useMemo } from "react";
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import React, { useMemo, useEffect } from "react";
 
 const MatchColors = () => {
   const [dificulty, setDifficulty] = React.useState(3);
@@ -23,11 +20,11 @@ const MatchColors = () => {
   const [guesses, setGuesses] = React.useState<number[][]>([]);
   const [endGame, setEndGame] = React.useState(false);
 
-  const handleDifficultyChange = (event: SelectChangeEvent<number>) => {
-    setDifficulty(Number(event.target.value));
+  const handleDifficultyChange = (value: string) => {
+    setDifficulty(Number(value));
   };
 
-  const shuffleGame = () => {
+  const shuffleGame = React.useCallback(() => {
     const shuffleArray: number[] = shuffle(
       Array.from({ length: dificulty }, (_, i) => i)
     );
@@ -39,11 +36,11 @@ const MatchColors = () => {
     );
     console.log("array", array);
     setTemplate(array);
-  };
-
-  useMemo(() => {
-    shuffleGame();
   }, [dificulty]);
+
+  useEffect(() => {
+    shuffleGame();
+  }, [shuffleGame]);
 
   const handleBlockChange = (index: number, value: number) => {
     const taken = template.findIndex((item) => item.guess === value);
@@ -70,43 +67,34 @@ const MatchColors = () => {
 
       setIsValid(template.every((item) => item.guess !== null));
       return (
-        <Grid size={blockSize} key={index}>
-          <Box
-            sx={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: guessColor,
-            }}
+        <div key={index} className={`col-span-${Math.round(blockSize)}`}>
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ backgroundColor: guessColor }}
           >
-            <FormControl sx={{ width: "100%" }} variant="filled">
-              <Select
-                labelId={blockId}
-                id={blockId}
-                value={template[index].guess?.toString() || ""}
-                onChange={(e) =>
-                  handleBlockChange(index, Number(e.target.value))
-                }
-              >
+            <Select
+              value={template[index].guess?.toString() || ""}
+              onValueChange={(value) =>
+                handleBlockChange(index, Number(value))
+              }
+            >
+              <SelectTrigger className="w-full" id={blockId}>
+                <SelectValue placeholder="Selecione" />
+              </SelectTrigger>
+              <SelectContent position="item-aligned">
                 {template.map((item, itemIndex) => {
-                  console.log("itemIndex", itemIndex);
-                  console.log("template[itemIndex].guess", template[itemIndex].guess);
                   return (
-                    <MenuItem key={itemIndex} value={itemIndex}>
-                      <Box>
-                        {template[itemIndex].guess == itemIndex 
-                          ? `(${itemIndex + 1})`
-                          : itemIndex + 1}
-                      </Box>
-                    </MenuItem>
+                    <SelectItem key={itemIndex} value={itemIndex.toString()}>
+                      {template[itemIndex].guess == itemIndex 
+                        ? `(${itemIndex + 1})`
+                        : itemIndex + 1}
+                    </SelectItem>
                   );
                 })}
-              </Select>
-            </FormControl>
-          </Box>
-        </Grid>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       );
     });
   }, [template]);
@@ -129,129 +117,101 @@ const MatchColors = () => {
   };
 
   return (
-    <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
-      <Grid container spacing={2} columns={12}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Box sx={{ width: "100%" }}>
-            <FormControl variant="filled" sx={{ width: "100%" }}>
-              <InputLabel id="dificuldade">Dificuldade</InputLabel>
-              <Select
-                labelId="dificuldade-label"
-                id="dificuldade"
-                value={dificulty}
-                sx={{ width: "100%" }}
-                onChange={(e) => handleDifficultyChange(e)}
-              >
-                <MenuItem value={3}>Muito Fácil</MenuItem>
-                <MenuItem value={4}>Fácil</MenuItem>
-                <MenuItem value={5}>Médio</MenuItem>
-                <MenuItem value={6}>Difícil</MenuItem>
-                <MenuItem value={7}>Muito Difícil</MenuItem>
-                <MenuItem value={8}>Extremamente Difícil</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </Grid>
+    <div className="flex flex-col gap-4 mt-2 mb-2">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="md:col-span-4">
+          <div className="w-full space-y-2">
+            <Label htmlFor="dificuldade">Dificuldade</Label>
+            <Select
+              value={dificulty.toString()}
+              onValueChange={handleDifficultyChange}
+            >
+              <SelectTrigger id="dificuldade" className="w-full">
+                <SelectValue placeholder="Selecione a dificuldade" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="3">Muito Fácil</SelectItem>
+                <SelectItem value="4">Fácil</SelectItem>
+                <SelectItem value="5">Médio</SelectItem>
+                <SelectItem value="6">Difícil</SelectItem>
+                <SelectItem value="7">Muito Difícil</SelectItem>
+                <SelectItem value="8">Extremamente Difícil</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-        <Grid
-          size={{ xs: 12, md: 6 }}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "background.paper",
-          }}
-        >
-          {endGame ? (
-            <Typography variant="body1" sx={{}}>
-              {endGame &&
-                `Você finalizou o jogo com ${guesses.length} tentativas`}
-            </Typography>
-          ) : (
-            <> </>
+        <div className="md:col-span-6 flex justify-center items-center bg-card">
+          {endGame && (
+            <p className="text-base text-foreground">
+              Você finalizou o jogo com {guesses.length} tentativas
+            </p>
           )}
-        </Grid>
-        <Grid
-          size={{ xs: 12, md: 2 }}
-          sx={{ display: "flex", justifyContent: "flex-start" }}
-        >
+        </div>
+        <div className="md:col-span-2 flex justify-start">
           <Button
-            variant="contained"
-            color="primary"
+            variant="default"
             onClick={handleRestart}
-            sx={{ width: "100%" }}
+            className="w-full"
           >
             Reiniciar
           </Button>
-        </Grid>
-      </Grid>
+        </div>
+      </div>
 
-      <Box sx={{ padding: 2, backgroundColor: "background.paper" }}>
+      <div className="p-4 bg-card rounded-lg">
         {guesses.map((guess, guessIndex) => (
-          <Grid
-            sx={{
-              marginBottom: 2,
-              backgroundColor: "background.paper",
-              marginTop: 2,
-            }}
-            container
-            spacing={{ xs: 1, md: 2 }}
+          <div
             key={guessIndex}
-            columns={12}
+            className="mb-4 mt-4 bg-card grid grid-cols-12 gap-1 md:gap-2"
           >
             {guess.map((number, nIndex) => (
-              <Grid size={10 / template.length} key={nIndex}>
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: `hsl(${
-                      (number + 1) * (360 / template.length)
-                    }, 50%, 50%)`,
-                  }}
-                >
+              <div
+                key={nIndex}
+                className="col-span-1"
+                style={{
+                  backgroundColor: `hsl(${
+                    (number + 1) * (360 / template.length)
+                  }, 50%, 50%)`,
+                }}
+              >
+                <div className="w-full h-full flex items-center justify-center text-foreground">
                   {number + 1}
-                </Box>
-              </Grid>
+                </div>
+              </div>
             ))}
-            <Grid size={2}>
-              <Typography variant="body1" sx={{ textAlign: "center" }}>
+            <div className="col-span-2">
+              <p className="text-base text-center text-foreground">
                 {
                   guess.filter((item, index) => item === template[index].number)
                     .length
                 }{" "}
                 Acertos
-              </Typography>
-            </Grid>
-          </Grid>
+              </p>
+            </div>
+          </div>
         ))}
-      </Box>
-      <Grid container spacing={{ xs: 1, md: 2 }} columns={12}>
+      </div>
+      <div className="grid grid-cols-12 gap-1 md:gap-2">
         {blocks}
-        <Grid size={2} sx={{ display: "flex", justifyContent: "center" }}>
+        <div className="col-span-2 flex justify-center">
           {!endGame ? (
             <Button
               disabled={!isValid}
-              variant="contained"
-              color="primary"
-              sx={{ width: "100%" }}
+              variant="default"
+              className="w-full"
               onClick={handleGuess}
             >
               Confirmar
             </Button>
           ) : (
-            <>
-              <Typography variant="body1" sx={{ textAlign: "center" }}>
-                Parabéns! Você acertou a sequência!
-              </Typography>
-            </>
+            <p className="text-base text-center text-foreground">
+              Parabéns! Você acertou a sequência!
+            </p>
           )}
-        </Grid>
-      </Grid>
-    </Stack>
+        </div>
+      </div>
+    </div>
   );
 };
 
