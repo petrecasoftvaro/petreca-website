@@ -47,9 +47,12 @@ interface IFormInput {
   }
 
 export default function Pedal() {
+    const nextSaturday = new Date()
+    nextSaturday.setDate(nextSaturday.getDate() + ((6 - nextSaturday.getDay()) % 7))
+    nextSaturday.setHours(6, 30, 0, 0)
     const { control, watch, setValue } = useForm<IFormInput>({
         defaultValues: {
-            dateTime: new Date(),
+            dateTime: nextSaturday,
             startPoint: "",
             distance: null,
             elevation: null,
@@ -87,23 +90,49 @@ export default function Pedal() {
         setNewStartPoint("")
     }
 
-    const formatDateTime = (date: Date | undefined) =>
-        date?.toLocaleString("pt-BR", {
+    const formatDate = (date: Date | undefined) =>
+        date?.toLocaleDateString("pt-BR", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
+            timeZone: "America/Sao_Paulo",
+        })
+
+    const formatTime = (date: Date | undefined) =>
+        date?.toLocaleTimeString("pt-BR", {
             hour: "2-digit",
             minute: "2-digit",
             timeZone: "America/Sao_Paulo",
         })
 
+    const composedMessageText = useMemo(() => {
+        const participants = selectedBicyclists
+            .map((name, index) => `${index + 1} - ${name}`)
+            .join("\n")
+        return `PEDAL LONGÃO DE SÁBADO 🚴‍♂
+
+📅 *Data:* ${formatDate(dateTime)}
+📍 *Local Partida:* ${startPoint || ""}
+⏰ *Horário:* ${formatTime(dateTime)}
+📏 *Distância:* ${distance || 0} Km
+⛰ *Altimetria:* ${elevation || 0} m
+🏁 *Destino:* ${destiny || ""}
+🛤 *Trajeto:* ${route || ""}
+
+Todos estão convidados
+
+✅ Participantes Confirmados:
+
+${participants}`
+    }, [dateTime, startPoint, distance, elevation, destiny, route, selectedBicyclists])
+
     const composedMessage = useMemo(() => (
         <div className="space-y-2">
             <p className="font-semibold">PEDAL LONGÃO DE SÁBADO 🚴‍♂</p>
             <div className="space-y-1">
-                <p>📅 *Data:* {formatDateTime(dateTime)}</p>
+                <p>📅 *Data:* {formatDate(dateTime)}</p>
+                <p>⏰ *Horário:* {formatTime(dateTime)}</p>
                 <p>📍 *Local Partida:* {startPoint}</p>
-                <p>⏰ *Horário:* {formatDateTime(dateTime)}</p>
                 <p>📏 *Distância:* {distance} Km</p>
                 <p>⛰ *Altimetria:* {elevation} m</p>
                 <p>🏁 *Destino:* {destiny}</p>
@@ -253,9 +282,14 @@ export default function Pedal() {
                 </div>
             </Field>
 
-            <div className="flex my-10">
+            <div className="flex my-10 space-y-4 border border-input rounded-md p-4">
                 {composedMessage}
             </div>
+            <Button type="button" variant="outline" onClick={() => {
+                navigator.clipboard.writeText(composedMessageText)
+            }}>
+                Copiar texto
+            </Button>
         </div>
     )
 }
