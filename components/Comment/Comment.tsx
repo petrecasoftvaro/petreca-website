@@ -4,7 +4,6 @@ import { useState } from "react";
 import CommentForm from "./Form";
 import CommentList from "./List";
 import type { Comment } from "@/types/blog";
-import { Box, Grid, Typography } from "@mui/material";
 
 export default function Comment() {
   const [text, setText] = useState("");
@@ -56,20 +55,18 @@ export default function Comment() {
     }
   };
 
-  //'xs' | 'sm' | 'md' | 'lg' | 'xl'
   return (
-    <Box sx={{ width: "100%", mx: "auto" }}>
-      <Typography variant="h4" marginBottom={2}>Comentários</Typography>
+    <div className="w-full mx-auto">
+      <h4 className="text-2xl font-semibold mb-4 text-foreground">Comentários</h4>
 
-      <Grid container spacing={4}>
-        <Grid size={{ lg: 4, md: 12 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="lg:col-span-4">
           <CommentForm onSubmit={onSubmit} text={text} setText={setText} />
-        </Grid>
-        <Grid size={{ lg: 8, sm: 12 }}>
+        </div>
+        <div className="lg:col-span-8">
           <CommentList comments={comments} onDelete={onDelete} />
-        </Grid>
-       
-      </Grid>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }

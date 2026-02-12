@@ -1,41 +1,23 @@
 'use client';
-import { Button } from '@mui/material'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 import React from 'react'
 
 const MenuItens = () => {
   return (
-    <div>
-      <Link href="/posts" passHref>
-        <Button
-          variant="text"
-          color="info"
-          size="medium"
-          sx={{ minWidth: 0 }}
-        >
-          Blog
-        </Button>
-      </Link>
-      <Link href="/jogos" passHref>
-        <Button
-          variant="text"
-          color="info"
-          size="medium"
-          sx={{ minWidth: 0 }}
-        >
-          Jogos
-        </Button>
-      </Link>
-      <Link href="/compra-consciente" passHref>
-        <Button
-          variant="text"
-          color="info"
-          size="medium"
-          sx={{ minWidth: 0 }}
-        >
-          Compra Consciente
-        </Button>
-      </Link>
+    <div className="flex items-center gap-1 ml-6">
+      <Button variant="ghost" asChild>
+        <Link href="/posts">Blog</Link>
+      </Button>
+      <Button variant="ghost" asChild>
+        <Link href="/jogos">Jogos</Link>
+      </Button>
+      <Button variant="ghost" asChild>
+        <Link href="/compra-consciente">Compra Consciente</Link>
+      </Button>
+      <Button variant="ghost" asChild>
+        <Link href="/pedal">Gerador Pedal</Link>
+      </Button>
     </div>
   )
 }

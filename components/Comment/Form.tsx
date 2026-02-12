@@ -1,6 +1,9 @@
+"use client";
 import { useUser } from "@auth0/nextjs-auth0";
-import { Box, Button, FormControl, TextareaAutosize, Typography } from "@mui/material";
-import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type CommentFormProps = {
   text: string;
@@ -14,32 +17,36 @@ export default function CommentForm({
   onSubmit,
 }: CommentFormProps) {
   const { user } = useUser();
+  const router = useRouter();
 
   return (
-    <FormControl sx={{width: '100%'}}>
-      <form onSubmit={onSubmit}>
-        <TextareaAutosize
+    <div className="w-full">
+      <form onSubmit={onSubmit} className="space-y-4">
+        <Textarea
           value={text}
-          minRows={3}
+          rows={3}
           onChange={(e) => setText(e.target.value)}
           disabled={!user}
           placeholder={
             user ? "Mande seu comentario" : "Faça login para comentar"
           }
-          style={{ width: '100%' }}
+          className="w-full"
         />
         {user ? (
-          <Box sx={{textAlign: "right"}}>
-            <Button onClick={() => onSubmit} type="submit">
+          <div className="flex justify-end gap-2">
+            <Button type="submit">
               Enviar
             </Button>
-            <Button onClick={() => redirect("/auth/logout")}>Logout</Button>
-          </Box>
+            <Button variant="outline" asChild>
+              <Link href="/auth/logout">Logout</Link>
+            </Button>
+          </div>
         ) : (
-          <Button onClick={() => redirect("/auth/login")}>Login</Button>
+          <Button variant="outline" asChild>
+            <Link href="/auth/login">Login</Link>
+          </Button>
         )}
       </form>
-    </FormControl>
+    </div>
   );
-
 }

@@ -35,6 +35,6 @@ export const config = {
          * - api (API routes)
          * - posts (blog posts)
          */
-        "/((?!_next/static|_next/image|images|favicon.ico|sitemap.xml|robots.txt|api|posts|jogos|compra-consciente).*)",
+        "/((?!_next/static|_next/image|images|favicon.ico|sitemap.xml|robots.txt|api|posts|jogos|compra-consciente|pedal).*)",
     ],
 }

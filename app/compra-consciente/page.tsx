@@ -1,10 +1,8 @@
 'use client';
 import Questions from '@/components/CompraConsiente/Questions';
-import QuestionsForm from '@/components/CompraConsiente/QuestionsForm'
 import QuestionsFormV2 from '@/components/CompraConsiente/QuestionsFormV2';
 import { calculatePoints } from '@/lib/Utils/wiselyBuy';
 import { Inputs } from '@/types/wiselyBuy';
-import { Container, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 
 const Page = () => {
@@ -69,20 +67,19 @@ const Page = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 2 }}>
-      <Typography variant="h1" gutterBottom>
+    <div className="container mx-auto max-w-6xl px-4 mt-2">
+      <h1 className="text-4xl font-bold mb-4 text-foreground">
         Compra Consciente
-      </Typography>
+      </h1>
       
 
-
-      <Typography sx={{marginBottom: 4}} variant="body1" gutterBottom>
+      <p className="mb-4 text-base text-foreground">
         Responda as perguntas e clique em "Analisar Compra" para ver o resultado.
-      </Typography>
+      </p>
 
     <QuestionsFormV2 onSubmit={handleSubmit} resetForm={resetForm}  range={range} perUseCost={perUseCost} percentage={percentage} />
 
-    </Container>
+    </div>
   )
 }
 

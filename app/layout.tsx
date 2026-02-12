@@ -1,9 +1,5 @@
-import theme from "@/theme/theme";
-import { ThemeProvider } from "@mui/material/styles";
-
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import "./global.css";
 import type { Metadata } from "next";
-import { Box, Container, CssBaseline } from "@mui/material";
 import MainNavigation from "@/components/Layout/MainNavigation";
 
 export const metadata: Metadata = {
@@ -52,27 +48,12 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline enableColorScheme />
-            <Container maxWidth="lg">
-              <MainNavigation />
-              <Box
-                sx={{
-                  marginTop: 14,
-                  marginBottom: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                {children}
-              </Box>
-            </Container>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <div className="container mx-auto max-w-6xl px-4">
+          <MainNavigation />
+          <main className="mb-8 flex flex-col justify-center items-center w-full">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

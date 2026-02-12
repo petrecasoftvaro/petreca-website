@@ -2,23 +2,18 @@
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Questions from "./Questions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  InputLabel,
-  MenuItem,
   Select,
-  Stack,
-  Switch,
-  TextField,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { NumericFormat } from "react-number-format";
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { NumericInput } from "@/components/ui/numeric-input";
 import { Inputs } from "@/types/wiselyBuy";
 import { titleCase } from "@/lib/Utils/commun";
 
@@ -38,24 +33,23 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
   percentage,
 }) => {
 
-  const defaultValues = Object.keys(Questions).reduce((acc, key) => {
-    acc[key as keyof typeof Questions] =
-      Questions[key as keyof typeof Questions].defaultValue;
-    return acc;
-  }, {} as Inputs);
+  const defaultValues = React.useMemo(() => {
+    return Object.keys(Questions).reduce((acc, key) => {
+      acc[key as keyof typeof Questions] =
+        Questions[key as keyof typeof Questions].defaultValue;
+      return acc;
+    }, {} as Inputs);
+  }, []);
 
   const {
-    register,
     handleSubmit,
     watch,
     reset,
     setValue,
     control,
-    formState: { errors },
   } = useForm<Inputs>({
     defaultValues,
   });
-  const theme = useTheme();
 
   
 
@@ -64,46 +58,28 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
     switch (range) {
       case 1:
         return (
-          <Box
-            sx={{
-              backgroundColor: theme.palette.error.main,
-              padding: 2,
-              color: theme.palette.error.contrastText,
-            }}
-          >
-            <Typography variant="body1" sx={{ marginTop: 1 }}>
+          <div className="bg-destructive text-destructive-foreground p-4 rounded-lg">
+            <p className="text-base mt-1">
               Caia fora, você não precisa comprar nada. Procure se distrair com
               outras coisas! 😉
-            </Typography>
-          </Box>
+            </p>
+          </div>
         );
       case 2:
         return (
-          <Box
-            sx={{
-              backgroundColor: theme.palette.warning.main,
-              padding: 2,
-              color: theme.palette.warning.contrastText,
-            }}
-          >
-            <Typography variant="body1" sx={{ marginTop: 1 }}>
+          <div className="bg-yellow-500 text-yellow-950 p-4 rounded-lg">
+            <p className="text-base mt-1">
               Melhor refletir mais, essa compra não parece um bom negócio! 🤔
-            </Typography>
-          </Box>
+            </p>
+          </div>
         );
       case 3:
         return (
-          <Box
-            sx={{
-              backgroundColor: theme.palette.success.main,
-              padding: 2,
-              color: theme.palette.success.contrastText,
-            }}
-          >
-            <Typography variant="body1" sx={{ marginTop: 1 }}>
+          <div className="bg-green-500 text-green-950 p-4 rounded-lg">
+            <p className="text-base mt-1">
               Segundo nosso algoritmo, você vai fazer uma boa compra! 💰
-            </Typography>
-          </Box>
+            </p>
+          </div>
         );
       default:
         return null;
@@ -112,10 +88,9 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <FormGroup>
-            <Stack spacing={4}>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="md:col-span-8">
+          <div className="flex flex-col gap-4">
               {(Object.keys(Questions) as Array<keyof typeof Questions>).map(
                 (key) => {
                   const question = Questions[key];
@@ -123,171 +98,174 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
                   switch (question.type) {
                     case "string":
                       return (
-                        <Controller
-                          name={key}
-                          key={key}
-                          control={control}
-                          render={({ field }) => (
-                            <TextField
-                              {...field}
-                              label={question.title}
-                              variant="outlined"
-                              value={field.value as string}
-                              onChange={field.onChange}
-                            />
-                          )}
-                        />
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key}>{question.title}</Label>
+                          <Controller
+                            name={key}
+                            control={control}
+                            render={({ field }) => (
+                              <Input
+                                {...field}
+                                id={key}
+                                value={field.value as string || ""}
+                                onChange={field.onChange}
+                              />
+                            )}
+                          />
+                        </div>
                       );
                     case "number":
                       return key === "price" ? (
-                        <Controller
-                          name={key}
-                          key={key}
-                          control={control}
-                          render={({ field }) => (
-                            <NumericFormat
-                              customInput={TextField}
-                              decimalScale={2}
-                              fixedDecimalScale
-                              decimalSeparator=","
-                              prefix="R$ "
-                              getInputRef={register(key).ref}
-                              variant="outlined"
-                              label={question.title}
-                              value={field.value as string}
-                              onValueChange={(values) => {
-                                field.onChange(values.value);
-                              }}
-                            />
-                          )}
-                        />
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key}>{question.title}</Label>
+                          <Controller
+                            name={key}
+                            control={control}
+                            render={({ field }) => (
+                              <NumericInput
+                                id={key}
+                                decimalScale={2}
+                                fixedDecimalScale
+                                decimalSeparator=","
+                                prefix="R$ "
+                                value={field.value as string || ""}
+                                onValueChange={(values) => {
+                                  field.onChange(values.value);
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
                       ) : (
-                        <Controller
-                          name={key}
-                          key={key}
-                          control={control}
-                          render={({ field }) => (
-                            <NumericFormat
-                              customInput={TextField}
-                              fixedDecimalScale
-                              suffix={question.suffix || ""}
-                              getInputRef={register(key).ref}
-                              variant="outlined"
-                              label={question.title}
-                              value={field.value as string}
-                              onValueChange={(values) => {
-                                field.onChange(values.value);
-                              }}
-                            />
-                          )}
-                        />
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key}>{question.title}</Label>
+                          <Controller
+                            name={key}
+                            control={control}
+                            render={({ field }) => (
+                              <NumericInput
+                                id={key}
+                                fixedDecimalScale
+                                suffix={question.suffix || ""}
+                                value={field.value as string || ""}
+                                onValueChange={(values) => {
+                                  field.onChange(values.value);
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
                       );
                     case "feelingType":
                       return (
-                        <FormControl fullWidth variant="outlined" key={key}>
-                          <InputLabel>{question.title}</InputLabel>
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key}>{question.title}</Label>
                           <Controller
                             name={key}
                             control={control}
                             render={({ field }) => (
                               <Select
-                                defaultValue={"neutral"}
-                                value={field.value || ""}
-                                label={question.title}
-                                onChange={field.onChange}
+                                value={String(field.value || "neutral")}
+                                onValueChange={field.onChange}
                               >
-                                <MenuItem value={"good"}>Bem</MenuItem>
-                                <MenuItem value={"bad"}>Mal</MenuItem>
-                                <MenuItem value={"neutral"}>Neutro</MenuItem>
+                                <SelectTrigger id={key}>
+                                  <SelectValue placeholder="Selecione" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="good">Bem</SelectItem>
+                                  <SelectItem value="bad">Mal</SelectItem>
+                                  <SelectItem value="neutral">Neutro</SelectItem>
+                                </SelectContent>
                               </Select>
                             )}
                           />
-                        </FormControl>
+                        </div>
                       );
                     case "boolean":
                       return (
-                        <FormControlLabel
-                          control={<Controller
+                        <div key={key} className="flex items-center space-x-2">
+                          <Controller
                             name={key}
                             control={control}
                             render={({ field: { value, ...field } }) => (
                               <Switch
                                 checked={!!value}
-                                {...field}
-                                key={key}
+                                onCheckedChange={field.onChange}
+                                id={key}
                               />
                             )}
-                          />}
-                          key={key}
-                          label={question.title}
-                        />
+                          />
+                          <Label htmlFor={key} className="cursor-pointer">
+                            {question.title}
+                          </Label>
+                        </div>
                       );
                     default:
                       return null;
                   }
                 }
               )}
-              <Button sx={{ marginTop: 10 }} type="submit" variant="contained">
+              <Button className="mt-10" type="submit" variant="default">
                 Analisar Compra
               </Button>
-            </Stack>
-          </FormGroup>
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Stack spacing={2} sx={{ marginBottom: 2 }}>
+            </div>
+          </div>
+        </div>
+        <div className="md:col-span-4">
+          <div className="flex flex-col gap-2 mb-2">
             {feedBack}
-            <Box sx={{ padding: 2, backgroundColor: "background.paper" }}>
-              <Typography variant="h3" sx={{ marginBottom: 2 }}>
+            <div className="p-4 bg-card rounded-lg">
+              <h3 className="text-2xl font-bold mb-2 text-foreground">
                 Resumo
-              </Typography>
-              <Typography variant="caption" sx={{ marginBottom: 2 }}>
+              </h3>
+              <p className="text-xs mb-2 text-muted-foreground">
                 Nome
-              </Typography>
-              <Typography variant="h5" sx={{ marginBottom: 2 }}>
+              </p>
+              <h5 className="text-xl font-semibold mb-2 text-foreground">
                 {titleCase(watch("name")?.toString())}
-              </Typography>
+              </h5>
 
-              <Stack spacing={1} sx={{ marginTop: 2 }}>
-                <Box>
-                  <Typography variant="caption" sx={{ marginBottom: 2 }}>
+              <div className="flex flex-col gap-1 mt-2">
+                <div>
+                  <p className="text-xs mb-2 text-muted-foreground">
                     Custo total
-                  </Typography>
-                  <Typography variant="body1" sx={{ marginTop: 1 }}>
+                  </p>
+                  <p className="text-base mt-1 text-foreground">
                     {watch("price") || "0,00"}
-                  </Typography>
-                </Box>
+                  </p>
+                </div>
 
                 {perUseCost ? (
-                  <Box>
-                    <Typography variant="caption" sx={{ marginBottom: 2 }}>
+                  <div>
+                    <p className="text-xs mb-2 text-muted-foreground">
                       Custo por uso
-                    </Typography>
-                    <Typography variant="body1" sx={{ marginTop: 1 }}>
+                    </p>
+                    <p className="text-base mt-1 text-foreground">
                       R$ {perUseCost.toFixed(2)}
-                    </Typography>
-                  </Box>
+                    </p>
+                  </div>
                 ) : null}
 
-                <Typography variant="caption" sx={{ marginBottom: 2 }}>
+                <p className="text-xs mb-2 text-muted-foreground">
                   Pontuação
-                </Typography>
-                <Typography variant="body1" sx={{ marginTop: 1 }}>
+                </p>
+                <p className="text-base mt-1 text-foreground">
                   {percentage} de 100
-                </Typography>
-              </Stack>
-            </Box>
+                </p>
+              </div>
+            </div>
             <Button
-              sx={{ marginTop: 10, width: "100%" }}
+              className="mt-10 w-full"
               type="submit"
-              variant="contained"
+              variant="default"
             >
               Analisar Compra
             </Button>
 
             <Button
-              sx={{ marginTop: 10, width: "100%" }}
-              type="reset"
-              variant="outlined"
+              className="mt-10 w-full"
+              type="button"
+              variant="outline"
               onClick={() => {
                 console.log(defaultValues);
                 setValue("price", defaultValues.price);
@@ -297,20 +275,16 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
             >
               Reset
             </Button>
-            <Typography
-              variant="body1"
-              sx={{ marginTop: 2, textAlign: "justify" }}
-            >
+            <p className="text-base mt-2 text-justify text-foreground">
               Desenvolvi esse sistema para ajudar as pessoas a tomarem decisões
               de compra mais conscientes, evitando compras por impulso. A ideia
               é que os usuários possam registrar seus desejos de compra e, após
               responder um questionario, dar maior visibilidade dos prós e
               contras. Assim, é possível refletir melhor se a compra é realmente
               conciente ou somente um impulso consumista.
-            </Typography>
-          </Stack>
-        </Grid>
-      </Grid>
+            </p>
+          </div>
+        </div>
     </form>
   );
 };

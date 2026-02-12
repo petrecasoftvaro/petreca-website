@@ -1,18 +1,21 @@
 import { PostType } from "@/types/blog";
 import PostItem from "./PostItem";
-import { Grid } from "@mui/material/";
 
 export default function PostsGrid({ posts }: { posts: PostType[] }) {
   if (!posts || posts.length === 0) {
-    return <p>Nenhum post foi encontrado 😬</p>;
+    return (
+      <p className="text-muted-foreground text-center py-8">
+        Nenhum post foi encontrado 😬
+      </p>
+    );
   }
   return (
-    <Grid container spacing={2} columns={12}>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
       {posts.map((post) => (
-        <Grid key={post.slug} size={{ xs: 12, md: 4 }}>
-          <PostItem key={post.slug} post={post} />
-        </Grid>
+        <div key={post.slug} className="w-full">
+          <PostItem post={post} />
+        </div>
       ))}
-    </Grid>
+    </div>
   );
 }
