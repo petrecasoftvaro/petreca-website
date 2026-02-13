@@ -1,4 +1,4 @@
-import { siGithub, siInstagram } from "simple-icons";
+import { siGithub, siInstagram, siWhatsapp } from "simple-icons";
 import { cn } from "@/lib/utils";
 
 interface SocialIconProps {
@@ -18,6 +18,10 @@ function SocialIcon({ icon, className }: SocialIconProps) {
       <path d={icon.path} />
     </svg>
   );
+}
+
+export function WhatsappIcon({ className }: { readonly className?: string }) {
+  return <SocialIcon icon={siWhatsapp} className={className} />;
 }
 
 export function GithubIcon({ className }: { readonly className?: string }) {
