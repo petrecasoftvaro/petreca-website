@@ -13,6 +13,7 @@ import { NumericInput } from "../ui/numeric-input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
 import { useLocalStorage } from "@/lib/hooks/useLocalStorage";
+import { WhatsappIcon } from "../ui/social-icons";
 
 const START_POINTS_STORAGE_KEY = "pedal-start-points"
 const DEFAULT_START_POINTS = [
@@ -285,11 +286,20 @@ ${participants}`
             <div className="flex my-10 space-y-4 border border-input rounded-md p-4">
                 {composedMessage}
             </div>
-            <Button type="button" variant="outline" onClick={() => {
-                navigator.clipboard.writeText(composedMessageText)
-            }}>
-                Copiar texto
-            </Button>
+
+            <div className="flex gap-2 justify-center">    
+                <Button type="button" variant="outline" onClick={() => {
+                    window.open(`https://wa.me/?text=${encodeURIComponent(composedMessageText)}`, '_blank')
+                }}>
+                <WhatsappIcon /> Enviar por WhatsApp
+                </Button>
+                <Button type="button" variant="outline" onClick={() => {
+                    navigator.clipboard.writeText(composedMessageText)
+                }}>
+                    Copiar texto
+                </Button>
+            </div>
+
         </div>
     )
 }

@@ -10,15 +10,14 @@ import {
 import { Menu, X } from "lucide-react";
 import ColorModeIconDropdown from "./ColorModeIconDropdown";
 import PetrecaIcon from "./PetrecaIcon";
-import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import MenuItens from "./MenuItens";
 import { cn } from "@/lib/utils";
+import LoginBtn from "./LoginBtn";
 
 export default function AppAppBar() {
   const [open, setOpen] = useState(false);
-  const { user } = useUser();
   const router = useRouter();
 
   const handleNavigation = (path: string) => {
@@ -57,15 +56,7 @@ export default function AppAppBar() {
           </div>
 
           <div className="hidden md:flex gap-2 items-center">
-            {user ? (
-              <Button variant="outline" asChild>
-                <Link href="/auth/logout">Logout</Link>
-              </Button>
-            ) : (
-              <Button variant="outline" asChild>
-                <Link href="/auth/login">Login</Link>
-              </Button>
-            )}
+            <LoginBtn />
             <ColorModeIconDropdown />
           </div>
 
@@ -131,15 +122,7 @@ export default function AppAppBar() {
                   <div className="border-t border-border my-3" />
 
                   <div className="w-full">
-                    {user ? (
-                      <Button variant="outline" className="w-full" asChild>
-                        <Link href="/auth/logout">Logout</Link>
-                      </Button>
-                    ) : (
-                      <Button variant="outline" className="w-full" asChild>
-                        <Link href="/auth/login">Login</Link>
-                      </Button>
-                    )}
+                    <LoginBtn />
                   </div>
                 </div>
               </SheetContent>
