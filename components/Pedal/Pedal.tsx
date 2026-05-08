@@ -8,7 +8,7 @@ import {
     Input
   } from "@/components/ui/input"
 import { Calendar24 } from "../Comment/Calendar24";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { NumericInput } from "../ui/numeric-input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
@@ -48,12 +48,9 @@ interface IFormInput {
   }
 
 export default function Pedal() {
-    const nextSaturday = new Date()
-    nextSaturday.setDate(nextSaturday.getDate() + ((6 - nextSaturday.getDay()) % 7))
-    nextSaturday.setHours(6, 30, 0, 0)
     const { control, watch, setValue } = useForm<IFormInput>({
         defaultValues: {
-            dateTime: nextSaturday,
+            dateTime: new Date(0),
             startPoint: "",
             distance: null,
             elevation: null,
@@ -68,6 +65,13 @@ export default function Pedal() {
     const elevation = watch('elevation')
     const destiny = watch('destiny')
     const route = watch('route')
+
+    useEffect(() => {
+        const nextSaturday = new Date()
+        nextSaturday.setDate(nextSaturday.getDate() + ((6 - nextSaturday.getDay()) % 7))
+        nextSaturday.setHours(6, 30, 0, 0)
+        setValue('dateTime', nextSaturday)
+    }, [setValue])
 
     const [startPointList, setStartPointList] = useLocalStorage<string[]>(
         START_POINTS_STORAGE_KEY,
@@ -110,21 +114,21 @@ export default function Pedal() {
         const participants = selectedBicyclists
             .map((name, index) => `${index + 1} - ${name}`)
             .join("\n")
-        return `PEDAL LONGÃO DE SÁBADO 🚴‍♂
+        return `PEDAL LONGÃO DE SÁBADO 🚴
 
-📅 *Data:* ${formatDate(dateTime)}
-📍 *Local Partida:* ${startPoint || ""}
-⏰ *Horário:* ${formatTime(dateTime)}
-📏 *Distância:* ${distance || 0} Km
-⛰ *Altimetria:* ${elevation || 0} m
-🏁 *Destino:* ${destiny || ""}
-🛤 *Trajeto:* ${route || ""}
+                📅 *Data:* ${formatDate(dateTime)}
+                📍 *Local Partida:* ${startPoint || ""}
+                ⏰ *Horário:* ${formatTime(dateTime)}
+                📏 *Distância:* ${distance || 0} Km
+                🏔 *Altimetria:* ${elevation || 0} m
+                🏁 *Destino:* ${destiny || ""}
+                🗺 *Trajeto:* ${route || ""}
 
-Todos estão convidados
+                Todos estão convidados
 
-✅ Participantes Confirmados:
+                ✅ Participantes Confirmados:
 
-${participants}`
+                ${participants}`
     }, [dateTime, startPoint, distance, elevation, destiny, route, selectedBicyclists])
 
     const composedMessage = useMemo(() => (

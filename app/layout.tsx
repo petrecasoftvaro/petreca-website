@@ -16,6 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Aplica o tema antes da primeira pintura para evitar flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme')||'dark';if(t==='dark')document.documentElement.classList.add('dark');else document.documentElement.classList.remove('dark');})();`,
+          }}
+        />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
