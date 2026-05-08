@@ -18,6 +18,9 @@ const MenuItens = () => {
       <Button variant="ghost" asChild>
         <Link href="/pedal">Gerador Pedal</Link>
       </Button>
+      <Button variant="ghost" asChild>
+        <Link href="/contato">Contato</Link>
+      </Button>
     </div>
   )
 }

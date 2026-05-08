@@ -50,7 +50,7 @@ export default function Hero() {
           asChild
         >
           <Link
-            href="https://www.instagram.com/kurt_jonnes"
+            href="https://www.instagram.com/leandropetreca"
             target="_blank"
             rel="noopener noreferrer"
           >
