@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import clientRedis from '@/lib/redis';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const RATE_LIMIT = 3;
 const RATE_WINDOW = 3600;
 
@@ -35,6 +33,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const { error } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL as string,
     to: 'leandro@petreca.com',
