@@ -26,7 +26,6 @@ const Page = () => {
     const perc =
       totalAvailablePoints > 0 ? (100 / totalAvailablePoints) * pointsSum : 0;
     setPercentage(Math.round(perc));
-    console.log(perc)
     setRange(perc > 75 ? 3 : perc > 50 ? 2 : perc > 0 && perc <= 50 ? 1 : 0);
   }, [pointsSum, totalAvailablePoints]);
 
@@ -44,12 +43,9 @@ const Page = () => {
         const durability = Number((data.durability as string).replace(/\D/g, ""));
         const totalUsage = monthlyUsage * 12 * durability;
         const moneyValue = Number((value as string).replace(/\D/g, "")) / 100;
-        console.log(moneyValue)
-        console.log('monthlyUsage:', monthlyUsage, 'durability:', durability);
         const perUseCostValue = monthlyUsage > 0 && durability > 0
           ? moneyValue / totalUsage
           : 0;
-        console.log('perUseCostValue:', perUseCostValue);
         setPerUseCost(perUseCostValue);
         return;
       } else if (key === "timesUsing") {
@@ -58,26 +54,24 @@ const Page = () => {
         typeOfQuestion.type === "boolean" ||
         typeOfQuestion.type === "feelingType"
       ) {
-        const poit =
-        calculatePoints(typeOfQuestion, value) || 0;
-        console.log(`poit ${key}: ${poit} - value: ${value}`);
+        const poit = calculatePoints(typeOfQuestion, value) || 0;
         setPointsSum((prev) => prev + poit);
       }
     });
   }
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 mt-2">
-      <h1 className="text-4xl font-bold mb-4 text-foreground">
-        Compra Consciente
-      </h1>
-      
+    <div className="w-full max-w-2xl mx-auto px-4 pt-10 pb-16">
+      <div className="mb-10">
+        <h1 className="text-3xl font-medium tracking-tight text-foreground mb-2">
+          Compra Consciente
+        </h1>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Responda as perguntas e descubra se aquela compra realmente vale a pena.
+        </p>
+      </div>
 
-      <p className="mb-4 text-base text-foreground">
-        Responda as perguntas e clique em "Analisar Compra" para ver o resultado.
-      </p>
-
-    <QuestionsFormV2 onSubmit={handleSubmit} resetForm={resetForm}  range={range} perUseCost={perUseCost} percentage={percentage} />
+      <QuestionsFormV2 onSubmit={handleSubmit} resetForm={resetForm} range={range} perUseCost={perUseCost} percentage={percentage} />
 
     </div>
   )

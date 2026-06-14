@@ -11,7 +11,8 @@ export default function PetrecaIcon({
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 203.684 203.684"
       fill="none"
-      className={cn("h-10 w-10 mr-2 text-muted-foreground", className)}
+      className={cn("h-10 w-10 mr-2", className)}
+      style={{ color: "var(--color-brand)" }}
     >
       <path
         fill="currentColor"

@@ -54,7 +54,6 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
   
 
   const feedBack = React.useMemo(() => {
-    console.log("range", range);
     switch (range) {
       case 1:
         return (
@@ -209,10 +208,8 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
                 Analisar Compra
               </Button>
             </div>
-          </div>
         </div>
-        <div className="md:col-span-4">
-          <div className="flex flex-col gap-2 mb-2">
+        <div className="md:col-span-4 flex flex-col gap-2 sticky top-20 self-start">
             {feedBack}
             <div className="p-4 bg-card rounded-lg">
               <h3 className="text-2xl font-bold mb-2 text-foreground">
@@ -267,7 +264,6 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
               type="button"
               variant="outline"
               onClick={() => {
-                console.log(defaultValues);
                 setValue("price", defaultValues.price);
                 reset(defaultValues);
                 resetForm();
@@ -283,8 +279,8 @@ const QuestionsFormV2: React.FC<QuestionsFormProps> = ({
               contras. Assim, é possível refletir melhor se a compra é realmente
               conciente ou somente um impulso consumista.
             </p>
-          </div>
         </div>
+      </div>
     </form>
   );
 };

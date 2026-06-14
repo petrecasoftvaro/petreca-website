@@ -9,6 +9,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jb-mono), ui-monospace, monospace;
+  --color-brand: #B52535;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -44,31 +47,24 @@
 
 :root {
   --radius: 0.625rem;
-  /* Fundo creme quente — afasta do cinza frio padrão */
-  --background: oklch(0.97 0.008 75);
-  --foreground: oklch(0.12 0.02 265);
-  /* Cards levemente mais brancos que o fundo */
+  --background: oklch(0.97 0.005 90);
+  --foreground: oklch(0.10 0 0);
   --card: oklch(1 0.002 75);
-  --card-foreground: oklch(0.12 0.02 265);
+  --card-foreground: oklch(0.10 0 0);
   --popover: oklch(1 0.002 75);
-  --popover-foreground: oklch(0.12 0.02 265);
-  /* Primary em azul-marinho profundo — substitui o preto neutro */
-  --primary: oklch(0.22 0.04 265);
-  --primary-foreground: oklch(0.97 0.008 75);
-  /* Secondary e muted com leve toque quente */
-  --secondary: oklch(0.93 0.006 75);
-  --secondary-foreground: oklch(0.22 0.04 265);
-  --muted: oklch(0.93 0.006 75);
-  --muted-foreground: oklch(0.52 0.012 265);
-  /* Accent quente para hover de botões ghost */
-  --accent: oklch(0.93 0.006 75);
-  --accent-foreground: oklch(0.22 0.04 265);
+  --popover-foreground: oklch(0.10 0 0);
+  --primary: oklch(0.10 0 0);
+  --primary-foreground: oklch(0.97 0.005 90);
+  --secondary: oklch(0.93 0.004 90);
+  --secondary-foreground: oklch(0.10 0 0);
+  --muted: oklch(0.93 0.004 90);
+  --muted-foreground: oklch(0.50 0.008 90);
+  --accent: oklch(0.93 0.004 90);
+  --accent-foreground: oklch(0.10 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  /* Bordas com tom quente e boa visibilidade */
-  --border: oklch(0.87 0.008 75);
-  --input: oklch(0.87 0.008 75);
-  /* Âmbar dourado como cor de foco — elemento distintivo */
-  --ring: oklch(0.68 0.14 68);
+  --border: oklch(0.87 0.004 90);
+  --input: oklch(0.87 0.004 90);
+  --ring: #B52535;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -85,31 +81,24 @@
 }
 
 .dark {
-  /* Azul-ardósia profundo — substitui o preto neutro */
-  --background: oklch(0.14 0.02 258);
-  --foreground: oklch(0.95 0.006 75);
-  /* Cards levemente mais claros que o fundo */
-  --card: oklch(0.19 0.02 258);
-  --card-foreground: oklch(0.95 0.006 75);
-  --popover: oklch(0.19 0.02 258);
-  --popover-foreground: oklch(0.95 0.006 75);
-  /* Primary em branco quente */
-  --primary: oklch(0.92 0.006 75);
-  --primary-foreground: oklch(0.19 0.02 258);
-  /* Secondary e muted em ardósia médio */
-  --secondary: oklch(0.25 0.02 258);
-  --secondary-foreground: oklch(0.95 0.006 75);
-  --muted: oklch(0.25 0.02 258);
-  --muted-foreground: oklch(0.64 0.012 258);
-  /* Accent para hover de botões ghost */
-  --accent: oklch(0.25 0.02 258);
-  --accent-foreground: oklch(0.95 0.006 75);
+  --background: oklch(0.13 0 0);
+  --foreground: oklch(0.95 0.004 90);
+  --card: oklch(0.17 0 0);
+  --card-foreground: oklch(0.95 0.004 90);
+  --popover: oklch(0.17 0 0);
+  --popover-foreground: oklch(0.95 0.004 90);
+  --primary: oklch(0.95 0.004 90);
+  --primary-foreground: oklch(0.13 0 0);
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.95 0.004 90);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.60 0.004 90);
+  --accent: oklch(0.22 0 0);
+  --accent-foreground: oklch(0.95 0.004 90);
   --destructive: oklch(0.704 0.191 22.216);
-  /* Bordas um pouco mais visíveis que o padrão de 10% */
-  --border: oklch(1 0 0 / 14%);
-  --input: oklch(1 0 0 / 18%);
-  /* Âmbar dourado consistente como cor de foco */
-  --ring: oklch(0.68 0.14 68);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: #B52535;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -130,7 +119,7 @@
     @apply border-border outline-ring/50;
   }
   :root {
-    --header-height: 92px;
+    --header-height: 64px;
   }
   html {
     scroll-behavior: smooth;

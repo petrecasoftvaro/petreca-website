@@ -1,7 +1,20 @@
 import "./global.css";
 import type { Metadata } from "next";
+import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import MainNavigation from "@/components/Layout/MainNavigation";
 import SWRConfigProvider from "@/components/providers/SWRConfigProvider";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jb-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Petreca's Blog",
@@ -14,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" className={`${dmSans.variable} ${jetbrainsMono.variable}`}>
       <head>
         {/* Aplica o tema antes da primeira pintura para evitar flash */}
         <script
