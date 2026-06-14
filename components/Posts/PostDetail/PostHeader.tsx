@@ -1,32 +1,51 @@
 "use client";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-export default function PostHeader(props: { title: string; image: string }) {
-  const { title, image } = props;
+export default function PostHeader(props: {
+  title: string;
+  image: string;
+  date: string;
+  author?: { name: string; image: string };
+}) {
+  const { title, image, date, author } = props;
+
+  const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+
   return (
-    <div className="text-center mb-8 w-full">
-      <h1 className="text-3xl font-bold mb-4 text-foreground">
+    <div className="mb-10">
+      <Link
+        href="/posts"
+        className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors no-underline"
+        style={{ color: "var(--color-brand)" }}
+      >
+        ← Blog
+      </Link>
+
+      <h1 className="text-3xl font-medium tracking-tight text-foreground mt-4 mb-3">
         {title}
       </h1>
 
-      <div
-        className={cn(
-          "self-center relative w-full mt-6 rounded-lg",
-          "outline outline-2 outline-border/20",
-          "border border-border",
-          "shadow-lg",
-          "h-[300px] sm:h-[240px] md:h-[350px] lg:h-[500px]",
-          "dark:shadow-[0_0_24px_12px_hsl(210_100%_25%_/_0.2)]",
-          "dark:outline-border/10"
+      <div className="flex items-center gap-3 mb-8">
+        {author && (
+          <span className="text-xs text-muted-foreground">{author.name}</span>
         )}
-      >
+        <span className="font-mono text-[10px] text-muted-foreground">{formattedDate}</span>
+      </div>
+
+      <div className="relative w-full rounded-lg overflow-hidden aspect-video">
         <Image
           src={image}
           alt={title}
-          fill={true}
-          className="object-cover rounded-lg"
-          sizes="width: 100%"
+          fill
+          className="object-cover"
+          sizes="100%"
+          priority
         />
       </div>
     </div>

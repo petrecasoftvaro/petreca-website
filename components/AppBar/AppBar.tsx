@@ -1,20 +1,18 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
-import ColorModeIconDropdown from "./ColorModeIconDropdown";
 import PetrecaIcon from "./PetrecaIcon";
+import StackMenu from "./StackMenu";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import MenuItens from "./MenuItens";
-import { cn } from "@/lib/utils";
-import LoginBtn from "./LoginBtn";
+
+const navLinks = [
+  { label: "Blog", href: "/posts" },
+  { label: "Projetos", href: "/projetos" },
+  { label: "Contato", href: "/contato" },
+];
 
 export default function AppAppBar() {
   const [open, setOpen] = useState(false);
@@ -26,104 +24,57 @@ export default function AppAppBar() {
   };
 
   return (
-    <header
-      className="fixed top-[calc(var(--template-frame-height,0px)+28px)] left-0 right-0 z-50"
-      style={{
-        boxShadow: "none",
-        backgroundColor: "transparent",
-        backgroundImage: "none",
-      }}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-[20px] border-b border-transparent">
       <div className="container mx-auto max-w-6xl px-4">
-        <div
-          className={cn(
-            "flex items-center justify-between flex-shrink-0 rounded-lg",
-            "backdrop-blur-[24px] border border-border",
-            "bg-background/40 p-2"
-          )}
-        >
-          <div className="flex flex-grow items-center px-0">
-            <Link
-              href="/"
-              className="text-decoration-none flex items-center"
-            >
-              <PetrecaIcon />
-            </Link>
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center no-underline">
+            <PetrecaIcon />
+          </Link>
 
-            <div className="hidden md:flex">
-              <MenuItens />
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-secondary no-underline"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="ml-2">
+              <StackMenu />
             </div>
-          </div>
+          </nav>
 
-          <div className="hidden md:flex gap-2 items-center">
-            <LoginBtn />
-            <ColorModeIconDropdown />
-          </div>
-
-          <div className="flex md:hidden gap-2 items-center">
-            <ColorModeIconDropdown size="medium" />
+          {/* Mobile */}
+          <div className="flex md:hidden items-center gap-1">
+            <StackMenu />
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9"
-                  aria-label="Menu button"
-                >
+                <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Menu">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent
-                side="top"
-                className="top-[var(--template-frame-height,0px)] [&>button]:hidden"
-              >
+              <SheetContent side="top" className="[&>button]:hidden">
                 <SheetHeader>
                   <div className="flex justify-end mb-4">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setOpen(false)}
-                      className="h-9 w-9"
-                    >
+                    <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="h-9 w-9">
                       <X className="h-5 w-5" />
                     </Button>
                   </div>
                 </SheetHeader>
-                <div className="flex flex-col gap-2 py-4">
-                  <Button
-                    variant="ghost"
-                    className="justify-start"
-                    onClick={() => handleNavigation("/posts")}
-                  >
-                    Blog
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="justify-start"
-                    onClick={() => handleNavigation("/jogos")}
-                  >
-                    Jogos
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="justify-start"
-                    onClick={() => handleNavigation("/compra-consciente")}
-                  >
-                    Compra consciente
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    className="justify-start"
-                    onClick={() => handleNavigation("/pedal")}
-                  >
-                    Gerador Pedal
-                  </Button>
-                  <div className="border-t border-border my-3" />
-
-                  <div className="w-full">
-                    <LoginBtn />
-                  </div>
+                <div className="flex flex-col gap-1 py-4">
+                  {navLinks.map((link) => (
+                    <Button
+                      key={link.href}
+                      variant="ghost"
+                      className="justify-start"
+                      onClick={() => handleNavigation(link.href)}
+                    >
+                      {link.label}
+                    </Button>
+                  ))}
                 </div>
               </SheetContent>
             </Sheet>

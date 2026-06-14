@@ -111,24 +111,24 @@ export default function Pedal() {
         })
 
     const composedMessageText = useMemo(() => {
-        const participants = selectedBicyclists
-            .map((name, index) => `${index + 1} - ${name}`)
-            .join("\n")
-        return `PEDAL LONGÃO DE SÁBADO 🚴
-
-                📅 *Data:* ${formatDate(dateTime)}
-                📍 *Local Partida:* ${startPoint || ""}
-                ⏰ *Horário:* ${formatTime(dateTime)}
-                📏 *Distância:* ${distance || 0} Km
-                🏔 *Altimetria:* ${elevation || 0} m
-                🏁 *Destino:* ${destiny || ""}
-                🗺 *Trajeto:* ${route || ""}
-
-                Todos estão convidados
-
-                ✅ Participantes Confirmados:
-
-                ${participants}`
+        const lines = [
+            'PEDAL LONGÃO DE SÁBADO 🚴',
+            '',
+            `📅 *Data:* ${formatDate(dateTime)}`,
+            `⏰ *Horário:* ${formatTime(dateTime)}`,
+            `📍 *Local Partida:* ${startPoint || ''}`,
+            `📏 *Distância:* ${distance || 0} Km`,
+            `🏔 *Altimetria:* ${elevation || 0} m`,
+            `🏁 *Destino:* ${destiny || ''}`,
+            `🗺 *Trajeto:* ${route || ''}`,
+            '',
+            'Todos estão convidados',
+            '',
+            '✅ Participantes Confirmados:',
+            '',
+            ...selectedBicyclists.map((name, i) => `${i + 1} - ${name}`),
+        ]
+        return lines.join('\n')
     }, [dateTime, startPoint, distance, elevation, destiny, route, selectedBicyclists])
 
     const composedMessage = useMemo(() => (
@@ -269,21 +269,30 @@ export default function Pedal() {
 
             <Field className="my-10">
                 <FieldLabel htmlFor="bicyclists">Participantes <i>(em ordem alfabética)</i></FieldLabel>
-                <div className="grid grid-cols-3 md:grid-cols-8 gap-4 pt-2">
-                    {DEFAULT_BICYCLISTS.map((name) => (
-                        <label
-                            key={name}
-                            className="flex items-center gap-2 cursor-pointer"
-                        >
-                            <input
-                                type="checkbox"
-                                checked={selectedBicyclists.includes(name)}
-                                onChange={() => toggleBicyclist(name)}
-                                className="h-4 w-4 rounded border-input accent-primary"
-                            />
-                            <span className="text-sm">{name}</span>
-                        </label>
-                    ))}
+                <div className="flex flex-wrap gap-2 pt-2">
+                    {DEFAULT_BICYCLISTS.map((name) => {
+                        const selected = selectedBicyclists.includes(name)
+                        return (
+                            <button
+                                key={name}
+                                type="button"
+                                onClick={() => toggleBicyclist(name)}
+                                className="px-3.5 py-1.5 rounded-full border text-sm transition-colors cursor-pointer"
+                                style={selected ? {
+                                    background: 'var(--color-brand)',
+                                    borderColor: 'var(--color-brand)',
+                                    color: '#fff',
+                                    fontWeight: 500,
+                                } : {
+                                    background: 'transparent',
+                                    borderColor: 'var(--color-border)',
+                                    color: 'var(--color-muted-foreground)',
+                                }}
+                            >
+                                {name}
+                            </button>
+                        )
+                    })}
                 </div>
             </Field>
 

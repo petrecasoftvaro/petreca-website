@@ -1,77 +1,71 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { GithubIcon, LinkedinIcon, InstagramIcon } from "@/components/ui/social-icons";
 
 export default function Hero() {
   return (
-    <div className="container mx-auto max-w-6xl px-4 flex flex-col items-center pt-8 sm:pt-10 pb-8 sm:pb-12">
-      <Image
-        src="/images/leandro.jpeg"
-        alt="Imagem de Leandro Petreca"
-        width={300}
-        height={300}
-        loading="lazy"
-        className="rounded-full mb-4 shadow-md"
-      />
+    <div className="w-full max-w-xl mx-auto px-4 pt-10 pb-12 flex flex-col items-center text-center">
+      <div className="relative w-[374px] h-[467px] mb-8 rounded-lg overflow-hidden flex-shrink-0 border-2 border-brand dark:border-white">
+        <Image
+          src="/images/leandro-petreca2.jpg"
+          alt="Leandro Petreca"
+          fill
+          className="object-cover object-top"
+          priority
+        />
+      </div>
 
-      <h1 className="text-4xl font-bold mb-4 text-foreground">
-        Seja bem vindo
+      <h1 className="text-4xl font-medium tracking-tight text-foreground mb-2">
+        Leandro Petreca
       </h1>
 
-      <p className="text-base text-center text-foreground mb-4">
-        Olá, eu sou Leandro Petreca, um desenvolvedor apaixonado por criar
-        experiências digitais incríveis. Neste blog, compartilho minhas
-        descobertas, aprendizados e insights sobre desenvolvimento web,
-        tecnologia e muito mais.
+      <p className="font-mono text-xs tracking-widest mb-5 text-brand">
+        // desenvolvedor de software
       </p>
-      
-      <div className="mt-2 flex gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          aria-label="GitHub"
-          asChild
+
+      <p className="text-base text-muted-foreground leading-relaxed mb-7 max-w-md">
+        Desenvolvedor full-stack com olho para interfaces e obsessão por detalhes que fazem a diferença.
+        Gosto de construir ferramentas que resolvem problemas reais. Fora do computador, estou em cima de
+        uma bike explorando estradas que o Google Maps não conhece.
+      </p>
+
+      <div className="flex gap-6 items-center mb-7">
+        <Link
+          href="/posts"
+          className="text-sm font-medium"
+          style={{ color: "var(--color-brand)", borderBottom: "1.5px solid var(--color-brand)", paddingBottom: "1px" }}
         >
-          <Link
-            href="https://github.com/petrecasoftvaro"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GithubIcon />
-          </Link>
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          aria-label="Instagram"
-          asChild
+          Ver blog →
+        </Link>
+        <Link href="/projetos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          Ver projetos
+        </Link>
+      </div>
+
+      <div className="flex gap-5">
+        <Link
+          href="https://github.com/petrecasoftvaro"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
         >
-          <Link
-            href="https://www.instagram.com/leandropetreca"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <InstagramIcon />
-          </Link>
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          aria-label="LinkedIn"
-          asChild
+          GitHub
+        </Link>
+        <Link
+          href="https://www.linkedin.com/in/leandropetreca"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
         >
-          <Link
-            href="https://www.linkedin.com/in/leandropetreca"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <LinkedinIcon />
-          </Link>
-        </Button>
+          LinkedIn
+        </Link>
+        <Link
+          href="https://www.instagram.com/leandropetreca"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Instagram
+        </Link>
       </div>
     </div>
   );
